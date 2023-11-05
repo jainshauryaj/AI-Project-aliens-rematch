@@ -1,3 +1,22 @@
+"""
+
+Running this code for 100 timesteps (or "turns" of the game) would allow you to simulate and observe the behavior of the bot, aliens, and crew member over time.
+
+Here's what you could learn from this:
+
+Bot Behavior: You can see how the bot moves around the ship over time, how it updates its beliefs about the positions of the aliens and crew member, and how it reacts to new information.
+
+Alien and Crew Member Behavior: You can observe how the aliens and crew member move around the ship. This can help you understand their behavior and potentially identify patterns or strategies.
+
+Game Dynamics: By watching the game play out over many timesteps, you can get a sense of the overall dynamics of the game. You might notice certain situations that come up often, or certain strategies that seem to work well or poorly.
+
+Performance Evaluation: Running the simulation for a longer period can help in evaluating the performance of the bot. You can measure how quickly or efficiently it finds the crew member, how often it encounters an alien, etc.
+
+Remember, each timestep represents a "turn" in the game, where the bot, aliens, and crew member may move or take some other action. So, running the game for 100 timesteps is like playing 100 turns of the game.
+
+"""
+
+
 import numpy as np
 import ship_generation
 import alien_bot_crew_movement
