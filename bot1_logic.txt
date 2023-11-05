@@ -1,0 +1,48 @@
+The Code:
+
+These lines import the necessary modules for the script. numpy is a library for numerical computations, ship_generation and alien_bot_crew_movement are presumably custom modules for generating the ship and handling the bot's movement, and matplotlib.pyplot is a library for creating plots.
+
+
+This defines a class Alien with a constructor that takes a position and a move method that randomly chooses a valid move (a position on the ship that is not blocked).
+
+
+These lines initialize counters for the number of crew members saved and the number of times the bot encounters an alien.
+
+
+This line generates a 50x50 ship using the generate_ship function from the ship_generation module.
+
+
+This line initializes the game with a bot, one alien, and one crew member, using the initialize_game function from the alien_bot_crew_movement module.
+
+
+These lines initialize the probabilities of finding an alien or a crew member at each position on the ship. Initially, all positions are equally likely, except for the bot's position, which is set to zero.
+
+
+These lines define parameters for the bot's behavior. alpha is the probability of receiving a beep when a crew member is nearby, beta is the amount by which the probabilities are increased when a beep is received, and k is the bot's detection range.
+
+
+This line starts a loop that runs the game for 1000 timesteps.
+
+
+These lines update the crew member probabilities based on whether the bot receives a beep.
+
+
+These lines update the alien probabilities based on the bot's sensors and the alien's movement.
+
+
+These lines move the aliens.
+
+
+These lines calculate the bot's possible moves and end the game if there are no valid moves available.
+
+
+These lines choose the bot's next move. The bot prefers safe moves (where the probability of an alien is zero) with high crew member probabilities. If there are no safe moves, the bot chooses a move with a high crew member probability and a low alien probability.
+
+
+This line moves the bot to the chosen position.
+
+
+These lines check if the bot saved a crew member or encountered an alien and update the counters accordingly.
+
+
+These lines print the final counts of saves and failures.
