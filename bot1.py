@@ -1,9 +1,9 @@
-# Python
 import numpy as np
 import ship_generation
 import alien_bot_crew_movement
-# from alien_bot_crew_movement import Alien
+import functions as fn
 import matplotlib.pyplot as plt
+
 
 # Initialize counters
 saves = 0
@@ -24,16 +24,19 @@ crew_probs[bot] = 0
 # Define the parameters
 alpha = 0.5  # The probability of receiving a beep when a crew member is nearby
 beta = 0.1  # The amount by which the probabilities are increased when a beep is received
-k = 5  # The bot's detection range
+k = 15  # The bot's detection range
 
 # Run the game
 for t in range(1000):  # Run for 100 timesteps
     # Update the crew member probabilities based on the bot's sensors
-    if np.random.rand() < alpha:  # The bot receives a beep
-        crew_probs *= (1 + beta)
-    else:  # The bot does not receive a beep
-        crew_probs *= (1 - alpha)
-    crew_probs /= crew_probs.sum()
+    # if np.random.rand() < alpha:  # The bot receives a beep
+    #     crew_probs *= (1 + beta)
+    # else:  # The bot does not receive a beep
+    #     crew_probs *= (1 - alpha)
+    # crew_probs /= crew_probs.sum()
+    beep = np.random.rand() < alpha  # The bot receives a beep
+    print(f"Beep: {beep}")  # Print the beep
+    crew_probs = fn.bayesian_update(crew_probs, beep, alpha, beta)
 
     # Update the alien probabilities based on the bot's sensors and the alien's movement
     alien_probs *= (1 - alpha)
@@ -97,14 +100,14 @@ for t in range(1000):  # Run for 100 timesteps
     print("Crew member position:", crew_members[0])
     print()
 
-    # Visualize the current state
-    plt.figure(figsize=(10, 10))
-    plt.imshow(ship, cmap='gray_r')
-    plt.scatter([bot[1]], [bot[0]], color='blue')  # Bot is blue
-    plt.scatter([alien[1] for alien in aliens], [alien[0] for alien in aliens], color='red')  # Aliens are red
-    plt.scatter([crew_member[1] for crew_member in crew_members], [crew_member[0] for crew_member in crew_members], color='green')  # Crew members are green
-    plt.title(f"Time: {t}")
-    plt.show()
+    # # Visualize the current state
+    # plt.figure(figsize=(10, 10))
+    # plt.imshow(ship, cmap='gray_r')
+    # plt.scatter([bot[1]], [bot[0]], color='blue')  # Bot is blue
+    # plt.scatter([alien[1] for alien in aliens], [alien[0] for alien in aliens], color='red')  # Aliens are red
+    # plt.scatter([crew_member[1] for crew_member in crew_members], [crew_member[0] for crew_member in crew_members], color='green')  # Crew members are green
+    # plt.title(f"Time: {t}")
+    # plt.show()
 
 # Print the final counts
 print("Number of saves:", saves)
