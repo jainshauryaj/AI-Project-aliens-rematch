@@ -3,7 +3,10 @@ import ship_generation
 import alien_bot_crew_movement
 import functions as fn
 import matplotlib.pyplot as plt
+import pandas as pd
 
+# Initialize a DataFrame to store the probabilities at each time step
+# alien_probs_df = pd.DataFrame()
 
 # Initialize counters
 saves = 0
@@ -36,7 +39,11 @@ for t in range(1000):  # Run for 100 timesteps
     # crew_probs /= crew_probs.sum()
     beep = np.random.rand() < alpha  # The bot receives a beep
     print(f"Beep: {beep}")  # Print the beep
-    crew_probs = fn.bayesian_update(crew_probs, beep, alpha, beta)
+    
+    old_position = bot  # Store the old position of the bot
+    bot = fn.move_bot(bot, alien_probs, crew_probs) # Move the bot
+    crew_probs = fn.bayesian_update(crew_probs, beep, alpha, beta, bot, old_position, k)
+    # crew_probs = fn.bayesian_update(crew_probs, beep, alpha, beta, bot, old_position, k)
 
     # Update the alien probabilities based on the bot's sensors and the alien's movement
     alien_probs *= (1 - alpha)
@@ -45,6 +52,8 @@ for t in range(1000):  # Run for 100 timesteps
             if 0 <= bot[0] + dx < ship.shape[0] and 0 <= bot[1] + dy < ship.shape[1]:
                 alien_probs[bot[0] + dx, bot[1] + dy] = 1
     alien_probs /= alien_probs.sum()
+    # Update the DataFrame with the current probabilities
+    # alien_probs_df = alien_probs_df.append(pd.DataFrame(alien_probs), ignore_index=True)
 
     # Move the aliens
     for i in range(len(aliens)):
@@ -108,6 +117,12 @@ for t in range(1000):  # Run for 100 timesteps
     # plt.scatter([crew_member[1] for crew_member in crew_members], [crew_member[0] for crew_member in crew_members], color='green')  # Crew members are green
     # plt.title(f"Time: {t}")
     # plt.show()
+
+# Set the column names to the cell coordinates
+# alien_probs_df.columns = [(i, j) for i in range(alien_probs.shape[0]) for j in range(alien_probs.shape[1])]
+
+# Save the DataFrame to a CSV file
+# alien_probs_df.to_csv('alien_probs.csv', index=False)
 
 # Print the final counts
 print("Number of saves:", saves)
